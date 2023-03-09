@@ -73,7 +73,9 @@ main() {
     echo INFO: rerunning cmake
     cmake .. || fail 1 CMAKE FAILED
   fi
-  make -j 4 && make test || taillog $VERBOSE
+  make -j 4 || fail 2 Build failed
+
+  make test || taillog $VERBOSE
 }
 
 main $@
