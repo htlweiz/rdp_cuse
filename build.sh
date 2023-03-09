@@ -16,6 +16,11 @@ taillog() {
     echo --------------------------------------------------------------------------------
     echo
     awk -f ../tests/test.awk Testing/Temporary/LastTest.log  
+    echo
+    echo --------------------------------------------------------------------------------
+    echo Following Tests failed.
+    echo --------------------------------------------------------------------------------
+    cat Testing/Temporary/LastTestsFailed.log  
   else
     echo Error occured rerun with -v to show log
   fi
