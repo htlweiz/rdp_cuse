@@ -1,5 +1,12 @@
 #!/bin/sh
 
+fail() {
+  exit_code=$1
+  shift
+  echo Error: $@
+  exit ${exit_code}
+}
+
 usage() {
   echo "usage: $(basename $0) [-c] -[C] [-v]"
   echo "    -c clean and cmake"
@@ -15,7 +22,7 @@ taillog() {
     echo LOGs
     echo --------------------------------------------------------------------------------
     echo
-    awk -f ../tests/test.awk Testing/Temporary/LastTest.log  
+    awk -f ../buildscripts/test.awk Testing/Temporary/LastTest.log  
     echo
     echo --------------------------------------------------------------------------------
     echo Following Tests failed.
@@ -64,7 +71,7 @@ main() {
   cd build
   if [ -n "${CMAKE}" ]; then
     echo INFO: rerunning cmake
-    cmake ..
+    cmake .. || fail 1 CMAKE FAILED
   fi
   make -j 4 && make test || taillog $VERBOSE
 }
