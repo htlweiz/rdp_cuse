@@ -62,7 +62,6 @@ main() {
   done
 
   cd $(dirname $0)
-  echo WARNING: clean \"${CLEAN}\"
   if [ -n "${CLEAN}" ]; then
     echo WARNING: running clean build
     rm -rf build
