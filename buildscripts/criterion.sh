@@ -1,6 +1,6 @@
 #!/bin/bash
 
-criterion_target=$1
+cmake --build .. --target criterion_echo
 
 make $1 || exit 1
 ./$1 || exit 2
