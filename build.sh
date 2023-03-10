@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 fail() {
   exit_code=$1
@@ -67,15 +67,18 @@ main() {
     echo WARNING: running clean build
     rm -rf build
   fi
-  mkdir -p build
+  [ -e build ] || {
+    mkdir build
+    CMAKE=y
+  }
   cd build
   if [ -n "${CMAKE}" ]; then
     echo INFO: rerunning cmake
     cmake .. || fail 1 CMAKE FAILED
   fi
-  make -j 4 || fail 2 Build failed
+  cmake --build . --target=all || fail 2 Build failed
 
-  make test || taillog $VERBOSE
+  cmake --build . --target=test || taillog $VERBOSE
 }
 
 main $@
