@@ -15,5 +15,5 @@ Test(misc, passing) {
 }
 
 Test(misc, pi) {
-    cr_assert(M_PI > 0);
+    cr_assert(fabs(M_PI -3.141) < 0.01);
 }
