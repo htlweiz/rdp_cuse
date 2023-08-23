@@ -7,7 +7,7 @@
 Test(factory, passing) {
   cr_assert(1);
   rdp::RdpValueStore the_store = rdp::RdpValueFactory::create(0,"../tests/criterion/rdp_values_test/test_data.csv");
-  std::cout << "HI: " << &the_store << std::endl;
+  // std::cout << "HI: " << &the_store << std::endl;
   auto one_value = the_store.get_value();
   cr_assert(one_value.get_time() == 0);
   cr_assert(one_value.get_type() < 4);

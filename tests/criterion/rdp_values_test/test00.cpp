@@ -13,16 +13,16 @@ Test(rdp_value, passing) {
 Test(rdp_value, test_class) {
   auto now = std::time(nullptr);
 
-  std::clog << "NOW:    " << now << std::endl;
+  // std::clog << "NOW:    " << now << std::endl;
   auto gm_now(std::localtime(&now));
-  std::clog << "GM NOW: " << now << " " << std::asctime(gm_now);
+  // std::clog << "GM NOW: " << now << " " << std::asctime(gm_now);
   gm_now->tm_sec=0;
   gm_now->tm_min=0;
   gm_now->tm_hour=0;
-  std::clog << "GM TOD: " << mktime(gm_now) << " " << std::asctime(gm_now);
+  // std::clog << "GM TOD: " << mktime(gm_now) << " " << std::asctime(gm_now);
   auto yesterday = mktime(gm_now)- (24*60*60);
   auto gm_yesterday(std::localtime(&yesterday));
-  std::clog << "HM YTD: " << mktime(gm_yesterday) << " " << std::asctime(gm_yesterday);
+  // std::clog << "HM YTD: " << mktime(gm_yesterday) << " " << std::asctime(gm_yesterday);
 
   // real test starts here
 
@@ -30,14 +30,14 @@ Test(rdp_value, test_class) {
   const time_t expected_start=1690668000;
   const time_t expected_end=1690754400;
 
-  std::clog << "Test now is:       " << test_now   << " "     << std::asctime(std::localtime(&test_now));
-  std::clog << "Expected start is: " << expected_start << " " << std::asctime(std::localtime(&expected_start));
-  std::clog << "Expected end is:   " << expected_end   << " " << std::asctime(std::localtime(&expected_end));
+  // std::clog << "Test now is:       " << test_now   << " "     << std::asctime(std::localtime(&test_now));
+  // std::clog << "Expected start is: " << expected_start << " " << std::asctime(std::localtime(&expected_start));
+  // std::clog << "Expected end is:   " << expected_end   << " " << std::asctime(std::localtime(&expected_end));
 
   rdp::RdpValues rdp_values(test_now);
   // rdp::RdpValues rdp_values(now);
 
-  std::clog << rdp_values.start_time() << " " << rdp_values.end_time() << std::endl;
+  // std::clog << rdp_values.start_time() << " " << rdp_values.end_time() << std::endl;
 
   cr_assert(rdp_values.start_time()==expected_start);
   cr_assert(rdp_values.end_time()==expected_end);
@@ -82,33 +82,33 @@ Test(rdp_value, test_rdp_value_store) {
   
   auto value1 = the_store.get_value();
   cr_assert(value1.get_type()==rdp::RDP_TEMP_VALUE_TYPE);
-  std::clog << "Timestamp: " << value1.get_time() << std::endl;
+  // std::clog << "Timestamp: " << value1.get_time() << std::endl;
   cr_assert(value1.get_time()==1000);
   float diff = value1.get_value()-0.4;
-  std::clog << "Diff: " << diff << std::endl;
+  // std::clog << "Diff: " << diff << std::endl;
   cr_assert(fabs(diff)<0.0000001);
 
   auto value2 = the_store.get_value();
   cr_assert(value2.get_type()==rdp::RDP_TEMP_VALUE_TYPE);
-  std::clog << "Timestamp: " << value2.get_time() << std::endl;
+  // std::clog << "Timestamp: " << value2.get_time() << std::endl;
   cr_assert(value2.get_time()==1001);
   diff = value2.get_value()-0.5;
-  std::clog << "Diff: " << diff << std::endl;
+  // std::clog << "Diff: " << diff << std::endl;
   cr_assert(fabs(diff)<0.0000001);
   
   auto value3 = the_store.get_value();
   cr_assert(value3.get_type()==rdp::RDP_TEMP_VALUE_TYPE);
-  std::clog << "Timestamp: " << value3.get_time() << std::endl;
+  // std::clog << "Timestamp: " << value3.get_time() << std::endl;
   cr_assert(value3.get_time()==1002);
   diff = value3.get_value()-0.6;
-  std::clog << "Diff: " << diff << std::endl;
+  // std::clog << "Diff: " << diff << std::endl;
   cr_assert(fabs(diff)<0.0000001);
   
   auto value4 = the_store.get_value();
   cr_assert(value4.get_type()==rdp::RDP_TEMP_VALUE_TYPE);
-  std::clog << "Timestamp: " << value4.get_time() << std::endl;
+  // std::clog << "Timestamp: " << value4.get_time() << std::endl;
   cr_assert(value4.get_time()==1000);
   diff = value4.get_value()-0.4;
-  std::clog << "Diff: " << diff << std::endl;
+  //  std::clog << "Diff: " << diff << std::endl;
   cr_assert(fabs(diff)<0.0000001);
 }

@@ -20,7 +20,6 @@
   float RdpValue::get_value() const {
     return value;
   }
-
   /// RdpValueStore
 
   /// @brief RdpValueStore constructor
@@ -31,7 +30,7 @@
   void RdpValueStore::add_value(const rdp::RdpValueType value_type,
       const time_t now_offset,
       float value) {
-    std::clog << "time offset is: " << now_offset << std::endl;
+    // std::clog << "time offset is: " << now_offset << std::endl;
     rdp::RdpValue tmp_value(value_type, now+now_offset, value);
     values.push_back(tmp_value);
   }
@@ -42,6 +41,10 @@
     auto return_value=*position;
     position++;
     return return_value;
+  }
+  size_t RdpValueStore::get_value_count() const{
+    return values.size();
+    
   }
 
  }

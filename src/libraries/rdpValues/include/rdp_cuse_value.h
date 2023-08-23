@@ -3,8 +3,6 @@
 #include <list>
 #include <ctime>
 
-#include <rdp_cuse_value.h>
-
 namespace rdp {
 
   enum RdpValueType {
@@ -31,6 +29,7 @@ namespace rdp {
       RdpValueStore(const time_t now=0);
       void add_value(const RdpValueType value_type, const time_t now_offset, float value);
       RdpValue get_value();
+      size_t get_value_count() const;
     protected:
       const time_t now;
       std::list<RdpValue> values;

@@ -70,7 +70,7 @@ namespace rdp {
                 throw std::exception();
             }
 
-            std::cout << "Got a value: " << time_offset << " " << value_type << " " << value << std::endl;
+            // std::cout << "Got a value: " << time_offset << " " << value_type << " " << value << std::endl;
             the_store.add_value(value_type, time_offset, value);
         }
         return the_store;

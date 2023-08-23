@@ -7,6 +7,7 @@
 #include <iostream>
 
 #include <rdp_cuse.h>
+rdp::RdpValueStore * the_store = NULL;
 
 using std::cout, std::cerr, std::endl;
 
@@ -22,28 +23,11 @@ static void cusetest_open(fuse_req_t req, struct fuse_file_info *fi) {
 static void cusetest_read(fuse_req_t req, size_t size, off_t off,
                          struct fuse_file_info *fi) {
     LOG << "read with req:" << req << endl;
-    rdp::RdpValue value_1(rdp::RDP_TEMP_VALUE_TYPE,1000,22.2);
+    auto single_value = the_store->get_value();
 
-    time_t time = value_1.get_time();
-    unsigned int type = value_1.get_type();
-    float value = value_1.get_value();
-
-    size_t buffer_size = sizeof(time)+sizeof(type)+sizeof(value);
-
-    void * buffer;
-    buffer = malloc(buffer_size);
-    size_t position=0;
-    memset(buffer,0,buffer_size);
-    memcpy(buffer+position,&time,sizeof(time));
-    position+=sizeof(time);
-    memcpy(buffer+position,&type,sizeof(type));
-    position+=sizeof(type);
-    memcpy(buffer+position,&value,sizeof(value));
-    position+=sizeof(value);
-    std::cout << "Position is: " << position << std::endl;
-    std::cout << "Sizeof time: " << sizeof(time) << std::endl;
-    std::cout << "Sizeof type: " << sizeof(type) << std::endl;
-    std::cout << "Sizeof value: " << sizeof(value) << std::endl;
+    size_t buffer_size = sizeof(time_t)+sizeof(rdp::RdpValueType)+sizeof(float);
+    char buffer[] = "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
+    rdp::RdpValue2Buffer(single_value,buffer);
     const char * buffer_pointer=0;
     buffer_pointer = (const char *) &buffer;
     fuse_reply_buf(req, buffer_pointer, size > buffer_size ? buffer_size : size);
@@ -80,6 +64,7 @@ static void cusetest_ioctl(fuse_req_t req, int cmd, void *arg,
         }
         break;
     }
+    fuse_reply_ioctl(req, 0, NULL, 0);
 }
 
 static const struct cuse_lowlevel_ops cusetest_clop = {
@@ -92,6 +77,30 @@ static const struct cuse_lowlevel_ops cusetest_clop = {
 int main(int argc, char** argv) {
     // -f: run in foreground, -d: debug ouput
     // Compile official example and use -h
+    std::string values="/etc/rdp_values.csv";
+    time_t now=0;
+    const std::string  value_key="--values";
+    const std::string time_key="--time";
+    std::string last_key="";
+    for(int i=1;i < argc; i++) {
+        std::clog << "Managing arg: " << argv[i] << std::endl;
+        if(last_key=="") {
+            last_key=argv[i];
+        } else if(last_key==value_key) {
+            values=argv[i];
+            last_key="";
+        } else if(last_key==time_key) {
+            now=atoi(argv[i]);
+            last_key="";
+        } else {
+            std::clog << "Unknown key " << last_key << std::endl;
+        }
+    }
+    std::clog << "Starting rdp cuse with values from " << values << " and an unix time of: " << now << std::endl;
+    rdp::RdpValueStore local_store = rdp::RdpValueFactory::create(now,values.c_str());
+    std::clog << "Managed to read " << local_store.get_value_count() << " values from " << values << std::endl;
+    the_store = &local_store;
+
     const char* cusearg[] = {"test", "-f", "-d"};
     const char* devarg[]  = {"DEVNAME=rdp_cdev" };
     struct cuse_info ci;
