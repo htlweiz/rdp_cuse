@@ -5,7 +5,11 @@
 
 #include <rdp_cuse.h>
 
-using std::clog, std::endl, std::setfill, std::setw, std::hex;
+using std::clog;
+using std::endl;
+using std::hex;
+using std::setfill;
+using std::setw;
 
 Test(helper, passing) {
   cr_assert(1);
@@ -17,14 +21,14 @@ Test(helper, passing) {
   std::clog << "!!! dumping buffer !!!" << std::endl;
   std::clog << hex << setfill('0');
   for(int i = 0; i<64; i++) {
-    if (i&16==0) {
+    if ((i&16)==0) {
       clog << setw(8) << i;
     }
-    if (i&8==0) {
+    if ((i&8)==0) {
       clog << ' '; 
     }
     clog << ' ' << setw(2) << (unsigned int)(unsigned char) test_buffer[i];
-    if (i&16==0) {
+    if ((i&16)==0) {
       clog << endl;
     }
   }

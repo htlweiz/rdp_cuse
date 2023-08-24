@@ -10,7 +10,7 @@ Test(factory, passing) {
   // std::cout << "HI: " << &the_store << std::endl;
   auto one_value = the_store.get_value();
   cr_assert(one_value.get_time() == 0);
-  cr_assert(one_value.get_type() < 4);
+  cr_assert(one_value.get_type() == rdp::RDP_TEMP_VALUE_TYPE);
   cr_assert(one_value.get_value() < 1000);
   auto this_type = one_value.get_type();
   auto this_time = one_value.get_time();
