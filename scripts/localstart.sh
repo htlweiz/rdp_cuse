@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 BASE_DIR=$(dirname $0)/../
 BASE_DIR=$(cd $BASE_DIR;pwd)
@@ -6,13 +6,13 @@ CDEV_PRG=${BASE_DIR}/build/rdp_cdev
 VALUE_FILE=${BASE_DIR}/tests/criterion/rdp_values_test/test_data_sorted.csv
 PID=-1
 
-[ ${UID} -ne 0 ] && {
+[ "${UID}" -ne "0" ] && {
     echo "Not running as root, restarting" >&2
     sudo $0 $*
 } 
 
 
-[ ${UID} -eq 0 ] && {
+[ "${UID}" -eq "0" ] && {
     [ -e ${VALUE_FILE} ] || {
         echo "ERROR: ${VALUE_FILE} not found" >&2
         exit 1
