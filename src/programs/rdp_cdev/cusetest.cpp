@@ -106,6 +106,8 @@ int main(int argc, char** argv) {
     struct cuse_info ci;
     memset(&ci, 0x00, sizeof(ci));
     ci.flags = CUSE_UNRESTRICTED_IOCTL;
+    ci.dev_major = 234;
+    ci.dev_minor = 0;
     ci.dev_info_argc=1;
     ci.dev_info_argv = devarg;
 
