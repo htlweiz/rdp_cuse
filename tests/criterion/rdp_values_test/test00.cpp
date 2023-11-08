@@ -37,7 +37,7 @@ Test(rdp_value, test_class) {
   rdp::RdpValues rdp_values(test_now);
   // rdp::RdpValues rdp_values(now);
 
-  // std::clog << rdp_values.start_time() << " " << rdp_values.end_time() << std::endl;
+  std::clog << rdp_values.start_time() << " " << rdp_values.end_time() << std::endl;
 
   cr_assert(rdp_values.start_time()==expected_start);
   cr_assert(rdp_values.end_time()==expected_end);
